@@ -1,7 +1,7 @@
 <script setup>
 import BaseButton from './BaseButton.vue'
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -23,13 +23,17 @@ defineProps({
     default: '#3BB77E', // Default green
   },
 })
+
+const shopNow = () => {
+  alert("Let's shop: " + props.title)
+}
 </script>
 
 <template>
   <div class="promotion-card" :style="{ backgroundColor: bgColor }">
     <div class="content">
       <h2 class="title">{{ title }}</h2>
-      <BaseButton :text="buttonText" :bg-color="buttonColor" />
+      <BaseButton :text="buttonText" :bg-color="buttonColor" @click="shopNow" />
     </div>
     <div class="image-container">
       <img :src="image" :alt="title" class="promo-image" />
