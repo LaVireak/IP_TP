@@ -1,5 +1,4 @@
-<script setup>
-import { ref, onMounted } from 'vue'
+<script>
 import axios from 'axios'
 import CategoryCard from './components/CategoryCard.vue'
 import PromotionCard from './components/PromotionCard.vue'
@@ -30,189 +29,211 @@ import steak2Img from './components/steak2.png'
 import steak3Img from './components/steak3.png'
 import steak4Img from './components/steak4.png'
 
-const categories = ref([])
-const promotions = ref([])
+export default {
+  components: {
+    CategoryCard,
+    PromotionCard,
+    ProductCard,
+  },
+  data() {
+    return {
+      categories: [],
+      promotions: [],
+      staticCategories: [
+        { title: 'Cake & Milk', items: 14, bgColor: '#F2FCE4', image: burgerImg },
+        { title: 'Peach', items: 17, bgColor: '#FFFCEB', image: peachImg },
+        { title: 'Organic Kiwi', items: 21, bgColor: '#ECFFEC', image: kiwiImg },
+        { title: 'Red Apple', items: 68, bgColor: '#FEEFEA', image: appleImg },
+        { title: 'Snack', items: 34, bgColor: '#FFF3EB', image: snackImg },
+        { title: 'Black plum', items: 25, bgColor: '#FFF3FF', image: plumImg },
+        { title: 'Vegetables', items: 65, bgColor: '#F2FCE4', image: cabbageImg },
+        { title: 'Headphone', items: 33, bgColor: '#FFFCEB', image: headphoneImg },
+        { title: 'Cake & Milk', items: 54, bgColor: '#F2FCE4', image: cakeImg },
+        { title: 'Orange', items: 63, bgColor: '#FFF3FF', image: orangeImg },
+      ],
+      staticPromotions: [
+        {
+          title: 'Everyday Fresh & Clean with Our Products',
+          bgColor: '#F0E8D5',
+          image: onionImg,
+          buttonColor: '#3BB77E',
+        },
+        {
+          title: 'Make your Breakfast Healthy and Easy',
+          bgColor: '#F3E8E8',
+          image: yogurtImg,
+          buttonColor: '#3BB77E',
+        },
+        {
+          title: 'The best Organic Products Online',
+          bgColor: '#E7EAF3',
+          image: vegetableImg,
+          buttonColor: '#FDC040',
+        },
+      ],
+      products: [
+        {
+          badge: { text: '-17%', color: '#3BB77E' },
+          image: mangoImg,
+          category: 'Hodo Foods',
+          title: 'Seeds of Change Organic Quinoa, Brown, & Red Rice',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: { text: 'Hot', color: '#FD6E6E' },
+          image: cornImg,
+          category: 'Hodo Foods',
+          title: 'All Natural Italian-Style Chicken Meatballs',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: { text: 'Sale', color: '#FDC040' },
+          image: orangeImg,
+          category: 'Hodo Foods',
+          title: "Angie's Boomchickapop Sweet & Salty Kettle Corn",
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: null,
+          image: chilliImg,
+          category: 'Hodo Foods',
+          title: 'Foster Farms Takeout Crispy Classic Buffalo Wings',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: null,
+          image: lemonImg,
+          category: 'Hodo Foods',
+          title: 'Blue Diamond Almonds Lightly Salted Vegetables',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: null,
+          image: steak1Img,
+          category: 'Hodo Foods',
+          title: 'Chobani Complete Vanilla Greek Yogurt',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: { text: 'Sale', color: '#FDC040' },
+          image: steak2Img,
+          category: 'Hodo Foods',
+          title: 'Canada Dry Ginger Ale - 2 L Bottle - 200ml - 400g',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: null,
+          image: steak3Img,
+          category: 'Hodo Foods',
+          title: 'Encore Seafoods Stuffed Alaskan Salmon',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: null,
+          image: steak4Img,
+          category: 'Hodo Foods',
+          title: "Gorton's Beer Battered Fish Fillets with soft paper",
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+        {
+          badge: { text: 'Hot', color: '#FD6E6E' },
+          image: plumImg, // Using plum as placeholder for ice cream if not available
+          category: 'Hodo Foods',
+          title: 'Haagen-Dazs Caramel Cone Ice Cream Ketchup',
+          rating: 4.0,
+          price: 2.51,
+          oldPrice: 2.8,
+        },
+      ],
+    }
+  },
+  methods: {
+    getImage(imagePath, title) {
+      const lowerTitle = title.toLowerCase()
+      if (lowerTitle.includes('cake')) return burgerImg // "Cake & Milk" -> burger.png (based on previous code)
+      if (lowerTitle.includes('peach')) return peachImg
+      if (lowerTitle.includes('kiwi')) return kiwiImg
+      if (lowerTitle.includes('apple')) return appleImg
+      if (lowerTitle.includes('snack')) return snackImg
+      if (lowerTitle.includes('plum')) return plumImg
+      if (lowerTitle.includes('vegetable')) return cabbageImg // "Vegetables" -> cabbage.png
+      if (lowerTitle.includes('headphone')) return headphoneImg
+      if (lowerTitle.includes('orange')) return orangeImg
+      if (lowerTitle.includes('onion')) return onionImg
+      if (lowerTitle.includes('breakfast')) return yogurtImg // "Make your Breakfast..." -> yogurt.png
+      if (lowerTitle.includes('organic products')) return vegetableImg // "The best Organic..." -> vegetable.png
 
-// Static data for fallback
-const staticCategories = [
-  { title: 'Cake & Milk', items: 14, bgColor: '#F2FCE4', image: burgerImg },
-  { title: 'Peach', items: 17, bgColor: '#FFFCEB', image: peachImg },
-  { title: 'Organic Kiwi', items: 21, bgColor: '#ECFFEC', image: kiwiImg },
-  { title: 'Red Apple', items: 68, bgColor: '#FEEFEA', image: appleImg },
-  { title: 'Snack', items: 34, bgColor: '#FFF3EB', image: snackImg },
-  { title: 'Black plum', items: 25, bgColor: '#FFF3FF', image: plumImg },
-  { title: 'Vegetables', items: 65, bgColor: '#F2FCE4', image: cabbageImg },
-  { title: 'Headphone', items: 33, bgColor: '#FFFCEB', image: headphoneImg },
-  { title: 'Cake & Milk', items: 54, bgColor: '#F2FCE4', image: cakeImg },
-  { title: 'Orange', items: 63, bgColor: '#FFF3FF', image: orangeImg },
-]
-
-const staticPromotions = [
-  {
-    title: 'Everyday Fresh & Clean with Our Products',
-    bgColor: '#F0E8D5',
-    image: onionImg,
-    buttonColor: '#3BB77E',
+      return burgerImg // Fallback
+    },
+    fetchCategories() {
+      axios
+        .get('http://localhost:3000/api/categories')
+        .then((response) => {
+          if (response.data && response.data.length > 0) {
+            this.categories = response.data.map((item) => ({
+              title: item.name,
+              items: item.productCount,
+              bgColor: item.color,
+              image: this.getImage(item.image, item.name),
+            }))
+          } else {
+            console.log('API returned empty categories, using fallback data')
+            this.categories = this.staticCategories
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching categories, using fallback data:', error)
+          this.categories = this.staticCategories
+        })
+    },
+    fetchPromotions() {
+      axios
+        .get('http://localhost:3000/api/promotions')
+        .then((response) => {
+          if (response.data && response.data.length > 0) {
+            this.promotions = response.data.map((item) => ({
+              title: item.title,
+              bgColor: item.color,
+              image: this.getImage(item.image, item.title),
+              buttonColor: item.buttonColor,
+            }))
+          } else {
+            console.log('API returned empty promotions, using fallback data')
+            this.promotions = this.staticPromotions
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching promotions, using fallback data:', error)
+          this.promotions = this.staticPromotions
+        })
+    },
+    shopNow() {
+      // Placeholder
+    },
   },
-  {
-    title: 'Make your Breakfast Healthy and Easy',
-    bgColor: '#F3E8E8',
-    image: yogurtImg,
-    buttonColor: '#3BB77E',
+  mounted() {
+    this.fetchCategories()
+    this.fetchPromotions()
   },
-  {
-    title: 'The best Organic Products Online',
-    bgColor: '#E7EAF3',
-    image: vegetableImg,
-    buttonColor: '#FDC040',
-  },
-]
-
-const products = [
-  {
-    badge: { text: '-17%', color: '#3BB77E' },
-    image: mangoImg,
-    category: 'Hodo Foods',
-    title: 'Seeds of Change Organic Quinoa, Brown, & Red Rice',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: { text: 'Hot', color: '#FD6E6E' },
-    image: cornImg,
-    category: 'Hodo Foods',
-    title: 'All Natural Italian-Style Chicken Meatballs',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: { text: 'Sale', color: '#FDC040' },
-    image: orangeImg,
-    category: 'Hodo Foods',
-    title: "Angie's Boomchickapop Sweet & Salty Kettle Corn",
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: null,
-    image: chilliImg,
-    category: 'Hodo Foods',
-    title: 'Foster Farms Takeout Crispy Classic Buffalo Wings',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: null,
-    image: lemonImg,
-    category: 'Hodo Foods',
-    title: 'Blue Diamond Almonds Lightly Salted Vegetables',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: null,
-    image: steak1Img,
-    category: 'Hodo Foods',
-    title: 'Chobani Complete Vanilla Greek Yogurt',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: { text: 'Sale', color: '#FDC040' },
-    image: steak2Img,
-    category: 'Hodo Foods',
-    title: 'Canada Dry Ginger Ale - 2 L Bottle - 200ml - 400g',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: null,
-    image: steak3Img,
-    category: 'Hodo Foods',
-    title: 'Encore Seafoods Stuffed Alaskan Salmon',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: null,
-    image: steak4Img,
-    category: 'Hodo Foods',
-    title: "Gorton's Beer Battered Fish Fillets with soft paper",
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-  {
-    badge: { text: 'Hot', color: '#FD6E6E' },
-    image: plumImg, // Using plum as placeholder for ice cream if not available
-    category: 'Hodo Foods',
-    title: 'Haagen-Dazs Caramel Cone Ice Cream Ketchup',
-    rating: 4.0,
-    price: 2.51,
-    oldPrice: 2.8,
-  },
-]
-
-// Map for images based on keywords or names
-const getImage = (imagePath, title) => {
-  const lowerTitle = title.toLowerCase()
-  if (lowerTitle.includes('cake')) return burgerImg // "Cake & Milk" -> burger.png (based on previous code)
-  if (lowerTitle.includes('peach')) return peachImg
-  if (lowerTitle.includes('kiwi')) return kiwiImg
-  if (lowerTitle.includes('apple')) return appleImg
-  if (lowerTitle.includes('snack')) return snackImg
-  if (lowerTitle.includes('plum')) return plumImg
-  if (lowerTitle.includes('vegetable')) return cabbageImg // "Vegetables" -> cabbage.png
-  if (lowerTitle.includes('headphone')) return headphoneImg
-  if (lowerTitle.includes('orange')) return orangeImg
-  if (lowerTitle.includes('onion')) return onionImg
-  if (lowerTitle.includes('breakfast')) return yogurtImg // "Make your Breakfast..." -> yogurt.png
-  if (lowerTitle.includes('organic products')) return vegetableImg // "The best Organic..." -> vegetable.png
-
-  return burgerImg // Fallback
 }
-
-onMounted(() => {
-  // Fetch Categories
-  axios
-    .get('http://localhost:3000/api/categories')
-    .then((response) => {
-      categories.value = response.data.map((item) => ({
-        title: item.name,
-        items: item.productCount,
-        bgColor: item.color,
-        image: getImage(item.image, item.name),
-      }))
-    })
-    .catch((error) => {
-      console.error('Error fetching categories, using fallback data:', error)
-      categories.value = staticCategories
-    })
-
-  // Fetch Promotions
-  axios
-    .get('http://localhost:3000/api/promotions')
-    .then((response) => {
-      promotions.value = response.data.map((item) => ({
-        title: item.title,
-        bgColor: item.color,
-        image: getImage(item.image, item.title),
-        buttonColor: item.buttonColor,
-      }))
-    })
-    .catch((error) => {
-      console.error('Error fetching promotions, using fallback data:', error)
-      promotions.value = staticPromotions
-    })
-})
 </script>
 
 <template>
