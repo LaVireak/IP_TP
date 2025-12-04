@@ -1,7 +1,16 @@
 <script setup>
-defineProps({
+import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+
+const router = useRouter()
+
+const props = defineProps({
+  id: {
+    type: [String, Number],
+    default: null,
+  },
   badge: {
-    type: Object, // { text: String, color: String }
+    type: Object,
     default: null,
   },
   image: {
@@ -33,6 +42,23 @@ defineProps({
     default: null,
   },
 })
+
+const productLink = computed(() => {
+  if (props.id) {
+    return { name: 'ProductDetail', params: { id: props.id } }
+  }
+  return { name: 'Home' }
+})
+
+const goToProduct = () => {
+  console.log('goToProduct clicked, id:', props.id)
+  if (props.id) {
+    console.log('Navigating to product:', props.id)
+    router.push(productLink.value)
+  } else {
+    console.warn('No product ID provided')
+  }
+}
 </script>
 
 <template>
@@ -56,7 +82,10 @@ defineProps({
           <span class="current-price">${{ price }}</span>
           <span v-if="oldPrice" class="old-price">${{ oldPrice }}</span>
         </div>
-        <button class="add-btn">Add +</button>
+        <router-link v-if="id" :to="{ name: 'ProductDetail', params: { id: id } }" class="add-btn"
+          >Add +</router-link
+        >
+        <button v-else class="add-btn" @click="goToProduct">Add +</button>
       </div>
     </div>
   </div>
@@ -183,6 +212,9 @@ defineProps({
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
 }
 
 .add-btn:hover {

@@ -11,6 +11,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
+    "test:e2e": "playwright test",
+    "playwright:install": "playwright install",
+    "playwright:debug": "playwright test --debug",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -27,6 +30,7 @@
     "prettier": "3.6.2",
     "vite": "^7.1.11",
     "vite-plugin-vue-devtools": "^8.0.3",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "@playwright/test": "^1.45.0"
   }
 }

@@ -1,5 +1,9 @@
 <script setup>
-defineProps({
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -14,13 +18,18 @@ defineProps({
   },
   bgColor: {
     type: String,
-    default: '#F2FCE4', // Default light green from mockup
+    default: '#F2FCE4',
   },
 })
+
+const goToCategory = () => {
+  const slug = props.title.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')
+  router.push({ name: 'Category', params: { slug } })
+}
 </script>
 
 <template>
-  <div class="category-card" :style="{ backgroundColor: bgColor }">
+  <div class="category-card" :style="{ backgroundColor: bgColor }" @click="goToCategory">
     <img :src="image" :alt="title" class="category-image" />
     <h3 class="category-title">{{ title }}</h3>
     <p class="category-items">{{ items }} items</p>
