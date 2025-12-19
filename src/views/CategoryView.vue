@@ -1,5 +1,6 @@
 <script setup>
-import { useRoute, onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import CategoryCard from '../components/CategoryCard.vue'
 import PromotionCard from '../components/PromotionCard.vue'
 import ProductCard from '../components/ProductCard.vue'
@@ -19,9 +20,10 @@ const props = defineProps({
 
 const title = computed(() => {
   if (props.title) return props.title
-  if (route.name === 'HotDeals') return 'Hot Deals'
-  if (route.params && route.params.slug) return String(route.params.slug).replace(/-/g, ' ')
-  if (route.params && route.params.title) return route.params.title
+  if (route.name === 'hot-deals') return 'Hot Deals'
+  // support categoryId (new) or slug/title (legacy)
+  const param = route.params && (route.params.categoryId ?? route.params.slug ?? route.params.title)
+  if (param) return String(param).replace(/-/g, ' ')
   return 'Category'
 })
 

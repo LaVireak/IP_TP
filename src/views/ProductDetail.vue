@@ -11,7 +11,8 @@ const product = ref(null)
 
 async function load() {
   await store.init()
-  const id = Number(route.params.id)
+  // route may provide either `productId` (router config) or legacy `id` param
+  const id = Number(route.params.productId ?? route.params.id)
   if (store.products && store.products.length) {
     product.value = store.products.find((p) => Number(p.id) === id)
   }

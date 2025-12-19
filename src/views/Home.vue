@@ -4,6 +4,7 @@ import PromotionCard from '../components/PromotionCard.vue'
 import ProductCard from '../components/ProductCard.vue'
 import MenuComponent from '../components/MenuComponent.vue'
 import ProductItem from '../components/ProductItem.vue'
+import ShowCase from '../components/ShowCase.vue'
 import { useProductStore } from '../stores/product'
 import { staticCategories, staticPromotions, staticProducts } from '../data/staticData'
 
@@ -61,20 +62,7 @@ export default {
 
 <template>
   <main class="container">
-    <!-- Hero banner -->
-    <section class="hero">
-      <div class="hero-left">
-        <h1>Don't miss amazing grocery deals</h1>
-        <p>Sign up for the daily newsletter</p>
-        <div class="hero-actions">
-          <input placeholder="Your email" />
-          <button class="subscribe">Subscribe</button>
-        </div>
-      </div>
-      <div class="hero-right">
-        <img src="../components/vegetable.png" alt="hero" />
-      </div>
-    </section>
+    <ShowCase />
 
     <div class="section-header">
       <h2 class="section-title">Featured Categories</h2>

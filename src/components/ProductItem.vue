@@ -36,7 +36,7 @@ const props = defineProps({
 
 function openDetail() {
   if (props.id != null) {
-    router.push({ path: `/product/${props.id}` })
+    router.push({ path: `/products/${props.id}` })
   }
 }
 </script>

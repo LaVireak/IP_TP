@@ -12,21 +12,15 @@
       </div>
 
       <div class="center">
-        <div class="search">
-          <select class="cat-select">
-            <option>All Categories</option>
-          </select>
-          <input class="search-input" placeholder="Search for items" />
-          <button class="search-btn">🔍</button>
-        </div>
+        <SearchBox :categories="[]" @search="onSearch" />
       </div>
 
       <div class="right">
         <nav class="icons">
-          <button class="icon">👤</button>
+          <router-link class="icon" :to="{ name: 'account' }">👤</router-link>
           <button class="icon">🔁</button>
-          <button class="icon">♡</button>
-          <button class="icon">🛒</button>
+          <router-link class="icon" :to="{ name: 'wishlist' }">♡</router-link>
+          <router-link class="icon" :to="{ name: 'cart' }">🛒</router-link>
         </nav>
         <div class="phone">099 777 888<br /><span>24/7 Support Center</span></div>
       </div>
@@ -35,14 +29,14 @@
     <div class="nav-row">
       <button class="browse">Browse All Categories ▾</button>
       <nav class="main-links">
-        <router-link :to="{ name: 'HotDeals' }">Hot Deals</router-link>
+        <router-link :to="{ name: 'hot-deals' }">Hot Deals</router-link>
         <router-link to="/">Home</router-link>
-        <router-link to="/category/food">Food</router-link>
-        <router-link to="/category/vegetables">Vegetables</router-link>
-        <router-link to="/category/drink">Drink</router-link>
-        <router-link to="/category/cookies">Cookies</router-link>
-        <router-link to="/category/meat-and-seafood">Meat & Seafood</router-link>
-        <router-link to="/category/bakery">Bakery</router-link>
+        <router-link to="/categories/food">Food</router-link>
+        <router-link to="/categories/vegetables">Vegetables</router-link>
+        <router-link to="/categories/drink">Drink</router-link>
+        <router-link to="/categories/cookies">Cookies</router-link>
+        <router-link to="/categories/meat-and-seafood">Meat & Seafood</router-link>
+        <router-link to="/categories/bakery">Bakery</router-link>
       </nav>
     </div>
   </header>
@@ -169,3 +163,12 @@
   }
 }
 </style>
+
+<script setup>
+import SearchBox from './SearchBox.vue'
+function onSearch(payload) {
+  try {
+    console.log('Search fired', payload)
+  } catch (e) {}
+}
+</script>

@@ -24,7 +24,7 @@ const props = defineProps({
 
 const goToCategory = () => {
   const slug = props.title.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')
-  router.push({ name: 'Category', params: { slug } })
+  router.push({ name: 'category', params: { categoryId: slug } })
 }
 </script>
 

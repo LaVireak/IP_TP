@@ -1,5 +1,7 @@
 <script setup>
 import BaseButton from './BaseButton.vue'
+import { useRouter } from 'vue-router'
+import { staticProducts } from '../data/staticData'
 
 const props = defineProps({
   title: {
@@ -24,7 +26,26 @@ const props = defineProps({
   },
 })
 
+const router = useRouter()
 const shopNow = () => {
+  const words = props.title
+    .split(/\s+/)
+    .map((w) => w.toLowerCase())
+    .filter(Boolean)
+  if (staticProducts && staticProducts.length) {
+    let found = null
+    for (const p of staticProducts) {
+      const name = (p.name || '').toLowerCase()
+      if (words.some((w) => w && name.includes(w))) {
+        found = p
+        break
+      }
+    }
+    if (found && found.id) {
+      router.push({ name: 'product', params: { productId: found.id } })
+      return
+    }
+  }
   alert("Let's shop: " + props.title)
 }
 </script>

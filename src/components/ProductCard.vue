@@ -45,9 +45,9 @@ const props = defineProps({
 
 const productLink = computed(() => {
   if (props.id) {
-    return { name: 'ProductDetail', params: { id: props.id } }
+    return { name: 'product', params: { productId: props.id } }
   }
-  return { name: 'Home' }
+  return { name: 'home' }
 })
 
 const goToProduct = () => {
@@ -64,12 +64,12 @@ const goToProduct = () => {
 <template>
   <div class="product-card">
     <div v-if="badge" class="badge" :style="{ backgroundColor: badge.color }">{{ badge.text }}</div>
-    <div class="image-wrapper">
+    <div class="image-wrapper" @click="goToProduct" role="button" tabindex="0">
       <img :src="image" :alt="title" />
     </div>
     <div class="content">
       <div class="category">{{ category }}</div>
-      <h3 class="title">{{ title }}</h3>
+      <h3 class="title" @click="goToProduct" role="button" tabindex="0">{{ title }}</h3>
       <div class="rating">
         <span class="stars">★★★★☆</span>
         <span class="rating-num">({{ rating }})</span>
@@ -82,9 +82,7 @@ const goToProduct = () => {
           <span class="current-price">${{ price }}</span>
           <span v-if="oldPrice" class="old-price">${{ oldPrice }}</span>
         </div>
-        <router-link v-if="id" :to="{ name: 'ProductDetail', params: { id: id } }" class="add-btn"
-          >Add +</router-link
-        >
+        <router-link v-if="id" :to="productLink" class="add-btn">Add +</router-link>
         <button v-else class="add-btn" @click="goToProduct">Add +</button>
       </div>
     </div>
