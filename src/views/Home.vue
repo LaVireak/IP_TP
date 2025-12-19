@@ -9,7 +9,7 @@ import { useProductStore } from '../stores/product'
 import { staticCategories, staticPromotions, staticProducts } from '../data/staticData'
 
 export default {
-  components: { CategoryCard, PromotionCard, ProductCard, MenuComponent, ProductItem },
+  components: { CategoryCard, PromotionCard, ProductCard, MenuComponent, ProductItem, ShowCase },
   data() {
     return {
       selectedGroup: 'All',
